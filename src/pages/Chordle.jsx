@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from '../firebase';
+import { Image, Card } from "react-bootstrap";
 
 
 export default function Chordle(props) {
-    const [clef, setClef] = useState("treble");
     const [notes, setNotes] = useState([]);
 
     useEffect(() => {
-        getDocs(collection(db, `${clef}Notes`))
+        getDocs(collection(db, `dailies`))
             .then(snapshot => {
                 setNotes(snapshot.docs.map(doc => 
                     ({
@@ -17,12 +17,14 @@ export default function Chordle(props) {
                     })
                 ))
             })
-    }, [clef]);
+    }, []);
 
     console.log(notes);
 
-
-
-
-    return <h1>bruh this ins' thosijdasdsipa</h1>
+    return <div style={{textAlign: "center"}}>
+        <Image 
+        src="/p146/notes/trebleA3.svg" 
+        alt="note A3"
+        style={{height: 300, width: 300}}/>
+    </div>
 }
