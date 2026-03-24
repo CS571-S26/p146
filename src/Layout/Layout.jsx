@@ -3,14 +3,14 @@ import { Link, Outlet } from "react-router";
 
 export default function Layout(props){
     return <div>
-        <Navbar className="border-bottom">
+        <Navbar className={"border-bottom ms-auto"}>
             <Nav>
                 <Nav.Link as={Link} to="/">chordle</Nav.Link>
                 <Nav.Link as={Link} to="/help">help</Nav.Link>
                 <NavDropdown title="difficulty">
-                    <NavDropdown.Item>easy</NavDropdown.Item>
-                    <NavDropdown.Item>medium</NavDropdown.Item>
-                    <NavDropdown.Item>hard</NavDropdown.Item>                    
+                    <NavDropdown.Item>single note</NavDropdown.Item>
+                    <NavDropdown.Item>triads</NavDropdown.Item>
+                    <NavDropdown.Item>okay you're crazy</NavDropdown.Item>                    
                 </NavDropdown>
             </Nav>
         </Navbar>
