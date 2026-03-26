@@ -7,6 +7,8 @@ import { Image, Form, Button } from "react-bootstrap";
 export default function Chordle(props) {
     const [notes, setNotes] = useState([]);
     const guessRef = useRef("");
+    const [correctGuess, setCorrectGuess] = useState(false);
+    const [date, setDate] = useState(getTodayId());
 
     useEffect(() => {
         getDocs(collection(db, `dailies`))
@@ -34,10 +36,41 @@ export default function Chordle(props) {
 
     function handleGuess(e) {
         e.preventDefault();
+
+        const guess = guessRef.current.value;
+        if (guess === noteToday.name) {
+            setCorrectGuess(true);
+        } else {
+            setCorrectGuess(false);
+        }
         return;
     }
 
-    const date = getTodayId();
+    function changeDate(action) {
+        setDate(prev => {
+            
+            const [month, day, year] = prev.split("-").map(Number);
+
+            const fullYear = 2000 + year;
+
+            const d = new Date(fullYear, month - 1, day);
+
+            if (action === "decrement") {
+                d.setDate(d.getDate() - 1);
+            } else {
+                d.setDate(d.getDate() + 1);
+            }
+
+            const newMonth = d.getMonth() + 1;
+            const newDay = d.getDate();
+            const newYear = d.getFullYear().toString().slice(-2);
+
+            setCorrectGuess(false);
+            guessRef.current.value="";
+            return `${newMonth}-${newDay}-${newYear}`;
+        });
+    }
+
     const noteToday = notes.find(daily => daily.id === date);
 
     if (!noteToday) {
@@ -48,11 +81,11 @@ export default function Chordle(props) {
             <Image
                 src={`/p146/notes/${noteToday.name}.svg`}
                 alt={noteToday.description}
-                style={{ height: 500, width: 500 }} />
+                style={{ height: 400, width: 400 }} />
 
             <Form onSubmit={handleGuess} style={{ maxWidth: 400, margin: "0 auto" }}>
                 <Form.Label htmlFor="answer">enter a guess</Form.Label>
-                <div style={{display: "flex", flexDirection: "row"}}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
                     <Form.Control
                         id="answer"
                         placeholder="e.g. A4 or A (both work)"
@@ -61,6 +94,14 @@ export default function Chordle(props) {
                     <Button type="submit">guess</Button>
                 </div>
             </Form>
+            {
+                correctGuess ? <p>yay you did it</p> : <p>wrong or no guess yet</p>
+            }
+            <Button onClick={() => changeDate("decrement")}>prev day</Button>
+            <Button 
+            onClick={() => changeDate("increment")}
+            disabled={date === getTodayId()}
+            >next day</Button>
         </div>
     }
 
