@@ -4,7 +4,7 @@ import Help from "../pages/Help";
 import NotFound from "../pages/NotFound";
 import Layout from "./Layout";
 
-export default function App() {
+export default function AppRouting() {
 
   return <div>
     <Routes>
