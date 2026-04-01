@@ -18,7 +18,7 @@ const modeMap = {
 export default function Chordle(props) {
     const [date] = useContext(DayContext);
     const [difficulty] = useContext(DifficultyContext);
-    const [daily, setDaily] = useState({});
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         getDocs(collection(db, `dailies`))
@@ -30,12 +30,13 @@ export default function Chordle(props) {
                 })
                 )
                 console.log(data);
-                setDaily(data.find((dailies) => dailies.id === date));
+                setData(data);
             })
     }, []);
-    console.log("daily", daily);
 
+    const daily = data.find((dailies) => dailies.id === date);
     const ModeComponent = modeMap[difficulty] || Note;
-    return daily ? <ModeComponent {...daily}/> : <p>loading</p>;
+
+    return (data.length > 0) ? <ModeComponent {...daily} /> : <p>loading</p>;
 
 }
