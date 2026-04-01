@@ -6,11 +6,11 @@ export default function Crazy(props) {
     const [correctGuess, setGuessState] = useState(false);
     const chord = props.crazy;
 
-    function handleGuess() {
+    function handleGuess(e) {
         e.preventDefault();
         const guess = guessRef.current.value.trim();
 
-        if (guess === note.name){
+        if (guess === chord.name){
             setGuessState(true);
         } else {
             setGuessState(false);
@@ -22,7 +22,7 @@ export default function Crazy(props) {
     return <div style={{ textAlign: "center" }}>
         <h1>daily or something sidk</h1>
         <Image
-            src={`/p146/crazy/${chord.name}.svg`}
+            src={`/p146/crazy/${chord.name.replaceAll("#", "sharp")}.svg`}
             alt={chord.description}
             style={{ height: 400, width: 400 }} />
 
@@ -31,7 +31,7 @@ export default function Crazy(props) {
             <div style={{ display: "flex", flexDirection: "row" }}>
                 <Form.Control
                     id="answer"
-                    placeholder="e.g. chordC7, chordCm(maj7,b9), chordCsus4(maj7,b9,#5), etc."
+                    placeholder="e.g. chordC7, chordCsus4(maj7,b9,#5), etc."
                     ref={guessRef}
                 />
                 <Button type="submit">guess</Button>

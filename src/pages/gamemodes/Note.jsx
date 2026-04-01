@@ -6,7 +6,7 @@ export default function Note(props) {
     const [correctGuess, setGuessState] = useState(false);
     const note = props.note;
 
-    function handleGuess() {
+    function handleGuess(e) {
         e.preventDefault();
         const guess = guessRef.current.value.trim();
 
@@ -22,10 +22,10 @@ export default function Note(props) {
     return <div style={{ textAlign: "center" }}>
         <h1>daily or something sidk</h1>
         <Image
-            src={`/p146/notes/${note.name}.svg`}
+            src={`/p146/notes/${note.name.replaceAll("#", "sharp")}.svg`}
             alt={note.description}
             style={{ height: 400, width: 400 }} />
-
+<h1></h1>
         <Form onSubmit={handleGuess} style={{ maxWidth: 400, margin: "0 auto" }}>
             <Form.Label htmlFor="answer">enter a guess</Form.Label>
             <div style={{ display: "flex", flexDirection: "row" }}>
