@@ -29,7 +29,6 @@ export default function Chordle(props) {
                     ...doc.data()
                 })
                 )
-                console.log(data);
                 setData(data);
             })
     }, []);
