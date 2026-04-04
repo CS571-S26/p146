@@ -19,6 +19,8 @@ export default function Note(props) {
         guessRef.currentValue = "";
     }
 
+    // adding a comment
+
     return <div style={{ textAlign: "center" }}>
         <h1>daily or something sidk</h1>
         <Image
