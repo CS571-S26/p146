@@ -1,16 +1,18 @@
 import { Image, Form, Button } from "react-bootstrap"
-import { useRef, useState } from "react";
+import { useRef, useContext, useEffect } from "react";
+
+import GuessContext from "../../contexts/GuessContext";
 
 export default function Crazy(props) {
     const guessRef = useRef("");
-    const [correctGuess, setGuessState] = useState(false);
+    const [correctGuess, setGuessState] = useContext(GuessContext);
     const chord = props.crazy;
 
     function handleGuess(e) {
         e.preventDefault();
         const guess = guessRef.current.value.trim();
 
-        if (guess === chord.name){
+        if (guess === chord.name) {
             setGuessState(true);
         } else {
             setGuessState(false);
@@ -38,7 +40,7 @@ export default function Crazy(props) {
             </div>
         </Form>
         {
-            correctGuess ? <p>yay you did it</p> : <p>wrong or no guess yet</p>
+            correctGuess ? <p>yay you did it! the chord was {chord.name}</p> : <p>wrong or no guess yet</p>
         }
     </div>
 }

@@ -4,6 +4,7 @@ import { db } from '../firebase';
 
 import DayContext from "../contexts/DayContext";
 import DifficultyContext from "../contexts/DifficultyContext";
+import GuessContext from "../contexts/GuessContext";
 
 import Note from "./gamemodes/note";
 import Crazy from "./gamemodes/crazy";
@@ -19,6 +20,7 @@ export default function Chordle(props) {
     const [date] = useContext(DayContext);
     const [difficulty] = useContext(DifficultyContext);
     const [data, setData] = useState([]);
+    const [correctGuess, setGuessState] = useState(false);
 
     useEffect(() => {
         getDocs(collection(db, `dailies`))
@@ -33,9 +35,17 @@ export default function Chordle(props) {
             })
     }, []);
 
+    useEffect(() => {
+        setGuessState(false);
+    }, [date, difficulty]);
+
     const daily = data.find((dailies) => dailies.id === date);
     const ModeComponent = modeMap[difficulty] || Note;
 
-    return (data.length > 0) ? <ModeComponent {...daily} /> : <p>loading</p>;
+    return <>
+        <GuessContext.Provider value={[correctGuess, setGuessState]}>
+            {data.length > 0 ? <ModeComponent {...daily} /> : <p>loading</p>}
+        </GuessContext.Provider>
+    </>
 
 }

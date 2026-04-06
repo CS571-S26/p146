@@ -1,25 +1,25 @@
 import { Image, Form, Button } from "react-bootstrap"
-import { useRef, useState } from "react";
+import { useRef, useContext, useEffect } from "react";
+
+import GuessContext from "../../contexts/GuessContext";
 
 export default function Note(props) {
     const guessRef = useRef("");
-    const [correctGuess, setGuessState] = useState(false);
     const note = props.note;
+    const [correctGuess, setGuessState] = useContext(GuessContext);
 
     function handleGuess(e) {
         e.preventDefault();
         const guess = guessRef.current.value.trim();
 
-        if (guess === note.name){
+        if (guess === note.name) {
             setGuessState(true);
         } else {
             setGuessState(false);
         }
 
-        guessRef.currentValue = "";
+        guessRef.current.value = "";
     }
-
-    // adding a comment
 
     return <div style={{ textAlign: "center" }}>
         <h1>daily or something sidk</h1>
@@ -27,7 +27,7 @@ export default function Note(props) {
             src={`/p146/notes/${note.name.replaceAll("#", "sharp")}.svg`}
             alt={note.description}
             style={{ height: 400, width: 400 }} />
-<h1></h1>
+        <h1></h1>
         <Form onSubmit={handleGuess} style={{ maxWidth: 400, margin: "0 auto" }}>
             <Form.Label htmlFor="answer">enter a guess</Form.Label>
             <div style={{ display: "flex", flexDirection: "row" }}>
@@ -40,7 +40,7 @@ export default function Note(props) {
             </div>
         </Form>
         {
-            correctGuess ? <p>yay you did it</p> : <p>wrong or no guess yet</p>
+            correctGuess ? <p>yay you did it! the note was {note.name}</p> : <p>wrong or no guess yet</p>
         }
     </div>
 }
