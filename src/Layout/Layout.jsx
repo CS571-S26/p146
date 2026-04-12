@@ -22,9 +22,7 @@ export default function Layout(props) {
         setDate(prev => {
 
             const [month, day, year] = prev.split("-").map(Number);
-
             const fullYear = 2000 + year;
-
             const d = new Date(fullYear, month - 1, day);
 
             if (action === "decrement") {
