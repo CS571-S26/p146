@@ -3,7 +3,7 @@ export default function Help(props) {
     return <>
         <p>(to be split and formatted later)</p>
         <h3>help:</h3>
-        <p>overall chord template: chord+root+base+(modifiers)</p>
+        <p>overall chord template: root+base+(modifiers)</p>
 
         <h3>about:</h3>
         <p>the motivation of this project is first to be able to bring out the intersection of

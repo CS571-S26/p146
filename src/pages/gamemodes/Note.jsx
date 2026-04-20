@@ -1,24 +1,39 @@
 import { Image, Form, Button } from "react-bootstrap"
-import { useRef, useContext, useEffect } from "react";
+import { useRef, useContext, useEffect, useState } from "react";
 
 import GuessContext from "../../contexts/GuessContext";
 
 export default function Note(props) {
     const guessRef = useRef("");
-    const note = props.note;
     const [correctGuess, setGuessState] = useContext(GuessContext);
+
+    const note = props.note;
+
+    const setGuessFormatted = props.setGuessFormatted;
+
+    function isValidGuess(guess) {
+        return props.guessPool.includes(guess);
+    }
 
     function handleGuess(e) {
         e.preventDefault();
-        const guess = guessRef.current.value.trim();
 
-        if (guess === note.name) {
-            setGuessState(true);
+        const guess = guessRef.current.value;
+
+        if (!isValidGuess(guess)) {
+            setGuessFormatted("invalid");
+            return;
+        }
+        setGuessFormatted("valid");
+        console.log(guess);
+
+        if (guess === note.name.replace(/^(chord|treble)/, "")) {
+            setGuessState("true");
         } else {
-            setGuessState(false);
+            setGuessState("false");
         }
 
-        guessRef.current.value = "";
+        guessRef.currentValue = "";
     }
 
     return <div style={{ textAlign: "center" }}>
@@ -27,20 +42,17 @@ export default function Note(props) {
             src={`/p146/notes/${note.name.replaceAll("#", "sharp")}.svg`}
             alt={note.description}
             style={{ height: 400, width: 400 }} />
-        <h1></h1>
+
         <Form onSubmit={handleGuess} style={{ maxWidth: 400, margin: "0 auto" }}>
             <Form.Label htmlFor="answer">enter a guess</Form.Label>
             <div style={{ display: "flex", flexDirection: "row" }}>
                 <Form.Control
                     id="answer"
-                    placeholder="e.g. trebleA4"
+                    placeholder="e.g. C4, Bb3, F#5 etc."
                     ref={guessRef}
                 />
                 <Button type="submit">guess</Button>
             </div>
         </Form>
-        {
-            correctGuess ? <p>yay you did it! the note was {note.name}</p> : <p>wrong or no guess yet</p>
-        }
     </div>
 }

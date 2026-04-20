@@ -1,21 +1,36 @@
 import { Image, Form, Button } from "react-bootstrap"
-import { useRef, useContext, useEffect } from "react";
+import { useRef, useContext, useEffect, useState } from "react";
 
 import GuessContext from "../../contexts/GuessContext";
 
 export default function Triad(props) {
     const guessRef = useRef("");
     const [correctGuess, setGuessState] = useContext(GuessContext);
+
     const chord = props.triad;
+
+    const setGuessFormatted = props.setGuessFormatted;
+
+    function isValidGuess(guess) {
+        return props.guessPool.includes(guess);
+    }
 
     function handleGuess(e) {
         e.preventDefault();
-        const guess = guessRef.current.value.trim();
 
-        if (guess === chord.name) {
-            setGuessState(true);
+        const guess = guessRef.current.value;
+
+        if (!isValidGuess(guess)) {
+            setGuessFormatted("invalid");
+            return;
+        }
+        setGuessFormatted("valid");
+        console.log(guess);
+
+        if (guess === chord.name.replace(/^(chord|treble)/, "")) {
+            setGuessState("true");
         } else {
-            setGuessState(false);
+            setGuessState("false");
         }
 
         guessRef.currentValue = "";
@@ -33,14 +48,11 @@ export default function Triad(props) {
             <div style={{ display: "flex", flexDirection: "row" }}>
                 <Form.Control
                     id="answer"
-                    placeholder="e.g. chordC, chordCm, chordCaug, etc."
+                    placeholder="e.g. C, Cm, Caug, Cdim etc."
                     ref={guessRef}
                 />
                 <Button type="submit">guess</Button>
             </div>
         </Form>
-        {
-            correctGuess ? <p>yay you did it! the chord was {chord.name}</p> : <p>wrong or no guess yet</p>
-        }
     </div>
 }

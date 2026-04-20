@@ -1,23 +1,36 @@
 import { Image, Form, Button } from "react-bootstrap"
-import { useRef, useContext, useEffect } from "react";
+import { useRef, useContext, useEffect, useState } from "react";
 
 import GuessContext from "../../contexts/GuessContext";
 
 export default function Crazy(props) {
     const guessRef = useRef("");
     const [correctGuess, setGuessState] = useContext(GuessContext);
+
     const chord = props.crazy;
-    const [guessFormatted, setGuessFormatted] = useState(false);
+
+    const setGuessFormatted = props.setGuessFormatted;
+
+    function isValidGuess(guess) {
+        return props.guessPool.includes(guess);
+    }
 
     function handleGuess(e) {
         e.preventDefault();
-        const guess = guessRef.current.value.trim().substring(5);
+
+        const guess = guessRef.current.value;
+
+        if (!isValidGuess(guess)) {
+            setGuessFormatted("invalid");
+            return;
+        }
+        setGuessFormatted("valid");
         console.log(guess);
 
-        if (guess === chord.name) {
-            setGuessState(true);
+        if (guess === chord.name.replace(/^(chord|treble)/, "")) {
+            setGuessState("true");
         } else {
-            setGuessState(false);
+            setGuessState("false");
         }
 
         guessRef.currentValue = "";
@@ -35,14 +48,11 @@ export default function Crazy(props) {
             <div style={{ display: "flex", flexDirection: "row" }}>
                 <Form.Control
                     id="answer"
-                    placeholder="e.g. chordC7, chordCsus4(maj7,b9,#5), etc."
+                    placeholder="e.g. C7, Csus4(maj7,b9,#5), etc."
                     ref={guessRef}
                 />
                 <Button type="submit">guess</Button>
             </div>
         </Form>
-        {
-            correctGuess ? <p>yay you did it! the chord was {chord.name}</p> : <p>wrong or no guess yet</p>
-        }
     </div>
 }
