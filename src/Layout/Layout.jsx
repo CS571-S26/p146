@@ -1,12 +1,27 @@
 import { Nav, Navbar, NavDropdown, Pagination } from "react-bootstrap";
 import { Link, Outlet } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import DifficultyContext from "../contexts/DifficultyContext";
 import DayContext from "../contexts/DayContext";
 
 export default function Layout(props) {
-    const [difficulty, setDifficulty] = useState("note");
-    const [date, setDate] = useState(getTodayId());
+    const [difficulty, setDifficulty] = useState(() => {
+        const stored = sessionStorage.getItem("difficulty");
+        return stored ? JSON.parse(stored) : "note"
+    });
+    const [date, setDate] = useState(() => {
+        const stored = sessionStorage.getItem("viewDate");
+        return stored ? JSON.parse(stored) : getTodayId();
+    });
+
+    useEffect(() => {
+        sessionStorage.setItem("viewDate", JSON.stringify(date));
+    }, [date])
+
+    useEffect(() => {
+        sessionStorage.setItem("difficulty", JSON.stringify(difficulty));
+    }, [difficulty])
 
     function getTodayId() {
         const today = new Date();
@@ -62,7 +77,7 @@ export default function Layout(props) {
                 <Pagination className="mb-0 mt-0">
                     <Pagination.Prev
                         onClick={() => changeDate("decrement")}
-                        disabled={date === "3-23-26"}/>
+                        disabled={date === "3-23-26"} />
                     <Pagination.Item active disabled >{date}</Pagination.Item>
                     <Pagination.Next onClick={() => changeDate("increment")}
                         disabled={date === getTodayId()} />

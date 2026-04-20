@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from '../firebase';
+import { Card } from "react-bootstrap";
 
 import DayContext from "../contexts/DayContext";
 import DifficultyContext from "../contexts/DifficultyContext";
@@ -42,10 +43,25 @@ export default function Chordle(props) {
     const daily = data.find((dailies) => dailies.id === date);
     const ModeComponent = modeMap[difficulty] || Note;
 
-    return <>
-        <GuessContext.Provider value={[correctGuess, setGuessState]}>
-            {data.length > 0 ? <ModeComponent {...daily} /> : <p>loading</p>}
-        </GuessContext.Provider>
-    </>
+    if (daily === undefined) {
+        return <div style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "80vh"
+        }}>
+            <Card style={{ width: 150, aspectRatio: 1 }}>
+                <Card.Body>
+                    <Card.Text>No information loaded for today</Card.Text>
+                </Card.Body>
+            </Card>
+        </div>
+    } else {
+        return <>
+            <GuessContext.Provider value={[correctGuess, setGuessState]}>
+                {data.length > 0 ? <ModeComponent {...daily} /> : <p>loading</p>}
+            </GuessContext.Provider>
+        </>
+    }
 
 }

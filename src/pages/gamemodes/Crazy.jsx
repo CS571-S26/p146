@@ -7,10 +7,12 @@ export default function Crazy(props) {
     const guessRef = useRef("");
     const [correctGuess, setGuessState] = useContext(GuessContext);
     const chord = props.crazy;
+    const [guessFormatted, setGuessFormatted] = useState(false);
 
     function handleGuess(e) {
         e.preventDefault();
-        const guess = guessRef.current.value.trim();
+        const guess = guessRef.current.value.trim().substring(5);
+        console.log(guess);
 
         if (guess === chord.name) {
             setGuessState(true);
