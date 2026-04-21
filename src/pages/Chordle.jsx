@@ -5,7 +5,7 @@ import { Card } from "react-bootstrap";
 
 import DayContext from "../contexts/DayContext";
 import DifficultyContext from "../contexts/DifficultyContext";
-import GuessContext from "../contexts/GuessContext";
+import FreeplayContext from "../contexts/FreeplayContext";
 
 import Note from "./gamemodes/note";
 import Crazy from "./gamemodes/crazy";
@@ -31,9 +31,9 @@ const modeMap = {
 export default function Chordle(props) {
     const [date] = useContext(DayContext);
     const [difficulty] = useContext(DifficultyContext);
+    const [isFreeplay] = useContext(FreeplayContext);
     const [data, setData] = useState([]);
 
-    const [correctGuess, setGuessState] = useState("initial");
     const [guessFormatted, setGuessFormatted] = useState("initial");
 
     useEffect(() => {
@@ -49,14 +49,13 @@ export default function Chordle(props) {
             })
     }, []);
 
-    function displayAnswer(){
+    function displayAnswer() {
         return daily[difficulty].name.replace(/^(chord|treble)/, "");
     }
 
     useEffect(() => {
-        setGuessState("initial");
         setGuessFormatted("initial");
-    }, [date, difficulty]);
+    }, [date, difficulty, isFreeplay]);
 
     const daily = data.find((dailies) => dailies.id === date);
     const ModeComponent = modeMap[difficulty] || Note;
@@ -76,14 +75,12 @@ export default function Chordle(props) {
         </div>
     } else {
         return <>
-            <GuessContext.Provider value={[correctGuess, setGuessState]}>
-                {data.length > 0 ? <ModeComponent
-                    {...daily}
-                    guessPool={guessPool}
-                    guessFormated={guessFormatted}
-                    setGuessFormatted={setGuessFormatted}
-                /> : <p>loading</p>}
-            </GuessContext.Provider>
+            {data.length > 0 ? <ModeComponent
+                {...daily}
+                guessPool={guessPool}
+                guessFormated={guessFormatted}
+                setGuessFormatted={setGuessFormatted}
+            /> : <p>loading</p>}
             <div style={{
                 display: "flex",
                 justifyContent: "center"
@@ -93,14 +90,7 @@ export default function Chordle(props) {
                         <p style={{
                             color: "red"
                         }}>{"Invalid guess format!\n"}</p>
-
                     )
-                }
-                {
-                    (correctGuess === "true") && <p>yay you did it! the {(difficulty) === "note" ? "note" : "chord"} was a {displayAnswer()}</p>
-                }
-                {
-                    (correctGuess === "false") && <p>wrong guess</p>
                 }
             </div>
         </>

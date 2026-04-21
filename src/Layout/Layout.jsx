@@ -1,9 +1,10 @@
-import { Nav, Navbar, NavDropdown, Pagination } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown, Pagination, Form, Button } from "react-bootstrap";
 import { Link, Outlet } from "react-router";
 import { useState, useEffect } from "react";
 
 import DifficultyContext from "../contexts/DifficultyContext";
 import DayContext from "../contexts/DayContext";
+import FreeplayContext from "../contexts/FreeplayContext";
 
 export default function Layout(props) {
     const [difficulty, setDifficulty] = useState(() => {
@@ -14,6 +15,11 @@ export default function Layout(props) {
         const stored = sessionStorage.getItem("viewDate");
         return stored ? JSON.parse(stored) : getTodayId();
     });
+    const [isFreeplay, setModeStatus] = useState(() => {
+        const stored = sessionStorage.getItem("isFreeplay");
+        console.log("i got here");
+        return stored ? JSON.parse(stored) : false;
+    })
 
     useEffect(() => {
         sessionStorage.setItem("viewDate", JSON.stringify(date));
@@ -22,6 +28,10 @@ export default function Layout(props) {
     useEffect(() => {
         sessionStorage.setItem("difficulty", JSON.stringify(difficulty));
     }, [difficulty])
+
+    useEffect(() => {
+        sessionStorage.setItem("isFreeplay", JSON.stringify(isFreeplay));
+    }, [isFreeplay])
 
     function getTodayId() {
         const today = new Date();
@@ -73,21 +83,44 @@ export default function Layout(props) {
                         active={difficulty === "crazy"}>okay you're crazy</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
-            <Nav className="ms-auto me-2">
-                <Pagination className="mb-0 mt-0">
-                    <Pagination.Prev
-                        onClick={() => changeDate("decrement")}
-                        disabled={date === "3-23-26"} />
-                    <Pagination.Item active disabled >{date}</Pagination.Item>
-                    <Pagination.Next onClick={() => changeDate("increment")}
-                        disabled={date === getTodayId()} />
-                </Pagination>
+            <Nav className="ms-auto">
+                <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 16
+                }}>
+                    <div style={{ display: "flex", border: "1px solid #ccc", borderRadius: 6 }}>
+                        <Button
+                            variant={!isFreeplay ? "primary" : "light"}
+                            onClick={() => setModeStatus(false)}
+                        >
+                            Daily
+                        </Button>
+
+                        <Button
+                            variant={isFreeplay ? "primary" : "light"}
+                            onClick={() => setModeStatus(true)}
+                        >
+                            Freeplay
+                        </Button>
+                    </div>
+                    <Pagination className="mb-0 mt-0">
+                        <Pagination.Prev
+                            onClick={() => changeDate("decrement")}
+                            disabled={date === "3-23-26"} />
+                        <Pagination.Item active disabled >{date}</Pagination.Item>
+                        <Pagination.Next onClick={() => changeDate("increment")}
+                            disabled={date === getTodayId()} />
+                    </Pagination>
+                </div>
             </Nav>
         </Navbar>
-        <DifficultyContext.Provider value={[difficulty]}>
-            <DayContext.Provider value={[date]}>
-                <Outlet />
-            </DayContext.Provider>
-        </DifficultyContext.Provider>
+        <FreeplayContext.Provider value={[isFreeplay]}>
+            <DifficultyContext.Provider value={[difficulty]}>
+                <DayContext.Provider value={[date]}>
+                    <Outlet />
+                </DayContext.Provider>
+            </DifficultyContext.Provider>
+        </FreeplayContext.Provider>
     </div>
 }
