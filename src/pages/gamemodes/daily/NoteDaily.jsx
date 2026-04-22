@@ -23,7 +23,7 @@ export default function NoteDaily(props) {
     function handleGuess(e, note) {
         e.preventDefault("");
 
-        const guess = guessRef.current.value;
+        const guess = guessRef.current.value.trim();
 
         if (!isValidGuess(guess)) {
             setGuessFormatted("invalid");
@@ -31,7 +31,6 @@ export default function NoteDaily(props) {
             return;
         }
         setGuessFormatted("valid");
-        console.log(guess);
 
         if (guess === note.name.replace(/^(chord|treble)/, "")) {
             setGuessState("true");

@@ -18,8 +18,6 @@ export default function CrazyFreeplay(props) {
     const isValidGuess = props.isValidGuess;
     const setGuessFormatted = props.setGuessFormatted;
 
-    console.log(chord);
-
     function handleGuess(e) {
         e.preventDefault();
 
@@ -31,7 +29,6 @@ export default function CrazyFreeplay(props) {
             return;
         }
         setGuessFormatted("valid");
-        console.log(guess);
 
         if (guess === chord.name.replace(/^(chord|treble)/, "")) {
             setChord(random(chords.crazy));

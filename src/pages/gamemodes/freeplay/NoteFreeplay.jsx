@@ -19,12 +19,10 @@ export default function NoteFreeplay(props) {
     const isValidGuess = props.isValidGuess;
     const setGuessFormatted = props.setGuessFormatted;
 
-    console.log(note);
-
     function handleGuess(e) {
         e.preventDefault();
 
-        const guess = guessRef.current.value;
+        const guess = guessRef.current.value.trim();
 
         if (!isValidGuess(guess)) {
             setGuessFormatted("invalid");

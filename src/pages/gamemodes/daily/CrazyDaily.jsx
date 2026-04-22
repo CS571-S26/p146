@@ -31,7 +31,6 @@ export default function CrazyDaily(props) {
             return;
         }
         setGuessFormatted("valid");
-        console.log(guess);
 
         if (guess === chord.name.replace(/^(chord|treble)/, "")) {
             setGuessState("true");
@@ -48,7 +47,6 @@ export default function CrazyDaily(props) {
         setGuessFormatted("initial");
     }, [date, difficulty, isFreeplay]);
 
-    console.log(modalStatus);
     return <div style={{ textAlign: "center" }}>
         <h1>daily or something sidk</h1>
         <Image

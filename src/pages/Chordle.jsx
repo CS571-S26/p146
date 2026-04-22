@@ -53,9 +53,6 @@ export default function Chordle(props) {
         return daily[difficulty].name.replace(/^(chord|treble)/, "");
     }
 
-    useEffect(() => {
-        setGuessFormatted("initial");
-    }, [date, difficulty, isFreeplay]);
 
     const daily = data.find((dailies) => dailies.id === date);
     const ModeComponent = modeMap[difficulty] || Note;

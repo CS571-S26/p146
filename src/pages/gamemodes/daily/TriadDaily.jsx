@@ -31,7 +31,6 @@ export default function TriadDaily(props) {
             return;
         }
         setGuessFormatted("valid");
-        console.log(guess);
 
         if (guess === chord.name.replace(/^(chord|treble)/, "")) {
             setGuessState("true");
