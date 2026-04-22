@@ -66,8 +66,9 @@ export default function Layout(props) {
     return <div>
         <Navbar className={"border-bottom"}>
             <Nav>
-                <Nav.Link as={Link} to="/">chordle</Nav.Link>
-                <Nav.Link as={Link} to="/help">help</Nav.Link>
+                <Nav.Link as={Link} to="/">Chordle</Nav.Link>
+                <Nav.Link as={Link} to="/help">Help</Nav.Link>
+                <Nav.Link as={Link} to="/learn">Learn</Nav.Link>
                 <NavDropdown title={`difficulty: ${difficulty}`}>
                     <NavDropdown.Item
                         onClick={() => setDifficulty("note")}
