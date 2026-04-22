@@ -60,7 +60,7 @@ export default function NoteDaily(props) {
             <div style={{ display: "flex", flexDirection: "row" }}>
                 <Form.Control
                     id="answer"
-                    placeholder="e.g. C4, Bb3, F#5 etc."
+                    placeholder="e.g. C, Cm, Caug, Cdim etc."
                     ref={guessRef}
                 />
                 <Button type="submit">guess</Button>
