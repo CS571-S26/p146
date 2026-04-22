@@ -23,7 +23,7 @@ export default function TriadFreeplay(props) {
     function handleGuess(e) {
         e.preventDefault();
 
-        const guess = guessRef.current.value;
+        const guess = guessRef.current.value.trim();
 
         if (!isValidGuess(guess)) {
             setGuessFormatted("invalid");
@@ -62,11 +62,11 @@ export default function TriadFreeplay(props) {
             <Form.Label htmlFor="answer">enter a guess</Form.Label>
             <div style={{ display: "flex", flexDirection: "row" }}>
                 <Button variant="secondary" onClick={refresh}>
-                    <i class="bi bi-arrow-clockwise"></i>
+                    <i className="bi bi-arrow-clockwise"></i>
                 </Button>
                 <Form.Control
                     id="answer"
-                    placeholder="e.g. C4, Bb3, F#5 etc."
+                    placeholder="e.g. C, Cm, Caug, Cdim etc."
                     ref={guessRef}
                 />
                 <Button type="submit">guess</Button>

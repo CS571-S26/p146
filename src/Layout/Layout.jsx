@@ -17,7 +17,6 @@ export default function Layout(props) {
     });
     const [isFreeplay, setModeStatus] = useState(() => {
         const stored = sessionStorage.getItem("isFreeplay");
-        console.log("i got here");
         return stored ? JSON.parse(stored) : false;
     })
 
@@ -91,6 +90,7 @@ export default function Layout(props) {
                 }}>
                     <div style={{ display: "flex", border: "1px solid #ccc", borderRadius: 6 }}>
                         <Button
+                            className="dailyButton"
                             variant={!isFreeplay ? "primary" : "light"}
                             onClick={() => setModeStatus(false)}
                         >
@@ -98,6 +98,7 @@ export default function Layout(props) {
                         </Button>
 
                         <Button
+                            className="dailyButton"
                             variant={isFreeplay ? "primary" : "light"}
                             onClick={() => setModeStatus(true)}
                         >
@@ -116,7 +117,7 @@ export default function Layout(props) {
             </Nav>
         </Navbar>
         <FreeplayContext.Provider value={[isFreeplay]}>
-            <DifficultyContext.Provider value={[difficulty]}>
+            <DifficultyContext.Provider value={[difficulty, setDifficulty]}>
                 <DayContext.Provider value={[date]}>
                     <Outlet />
                 </DayContext.Provider>

@@ -5,6 +5,7 @@ import DayContext from "../../../contexts/DayContext";
 import DifficultyContext from "../../../contexts/DifficultyContext";
 import FreeplayContext from "../../../contexts/FreeplayContext";
 
+import WinModal from "../../../components/WinModal";
 
 export default function TriadDaily(props) {
     const chord = props.chord;
@@ -14,14 +15,15 @@ export default function TriadDaily(props) {
     const [date] = useContext(DayContext);
     const [difficulty] = useContext(DifficultyContext);
     const [isFreeplay] = useContext(FreeplayContext);
- 
+
     const guessRef = useRef("");
     const [correctGuess, setGuessState] = useState("initial");
+    const [modalStatus, setModalStatus] = useState(false);
 
     function handleGuess(e, chord) {
         e.preventDefault("");
 
-        const guess = guessRef.current.value;
+        const guess = guessRef.current.value.trim();
 
         if (!isValidGuess(guess)) {
             setGuessFormatted("invalid");
@@ -33,6 +35,7 @@ export default function TriadDaily(props) {
 
         if (guess === chord.name.replace(/^(chord|treble)/, "")) {
             setGuessState("true");
+            setModalStatus(true);
         } else {
             setGuessState("false");
         }
@@ -64,7 +67,14 @@ export default function TriadDaily(props) {
                 <Button type="submit">guess</Button>
             </div>
         </Form>
-        {(correctGuess === "true") && <p>nice! the chord was {chord.name.replace(/^(chord|treble)/, "")}</p>}
+        {
+            (modalStatus) && <WinModal
+                show={modalStatus}
+                onHide={() => setModalStatus(false)}
+                item={chord.name.replace(/^(chord|treble)/, "")}
+            />
+        }
+        {(correctGuess === "true") && <p>you did it!</p>}
         {(correctGuess === "false") && <p>nope!</p>}
     </div>
 }

@@ -63,7 +63,7 @@ export default function NoteFreeplay(props) {
             <Form.Label htmlFor="answer">enter a guess</Form.Label>
             <div style={{ display: "flex", flexDirection: "row" }}>
                 <Button variant="secondary" onClick={refresh}>
-                    <i class="bi bi-arrow-clockwise"></i>
+                    <i className="bi bi-arrow-clockwise"></i>
                 </Button>
                 <Form.Control
                     id="answer"

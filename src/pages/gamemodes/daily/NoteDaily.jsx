@@ -5,6 +5,7 @@ import DayContext from "../../../contexts/DayContext";
 import DifficultyContext from "../../../contexts/DifficultyContext";
 import FreeplayContext from "../../../contexts/FreeplayContext";
 
+import WinModal from "../../../components/WinModal";
 
 export default function NoteDaily(props) {
     const note = props.note;
@@ -14,9 +15,10 @@ export default function NoteDaily(props) {
     const [date] = useContext(DayContext);
     const [difficulty] = useContext(DifficultyContext);
     const [isFreeplay] = useContext(FreeplayContext);
- 
+
     const guessRef = useRef("");
     const [correctGuess, setGuessState] = useState("initial");
+    const [modalStatus, setModalStatus] = useState(false);
 
     function handleGuess(e, note) {
         e.preventDefault("");
@@ -33,6 +35,7 @@ export default function NoteDaily(props) {
 
         if (guess === note.name.replace(/^(chord|treble)/, "")) {
             setGuessState("true");
+            setModalStatus(true);
         } else {
             setGuessState("false");
         }
@@ -64,7 +67,14 @@ export default function NoteDaily(props) {
                 <Button type="submit">guess</Button>
             </div>
         </Form>
-        {(correctGuess === "true") && <p>nice! the note was {note.name.replace(/^(chord|treble)/, "")}</p>}
+        {
+            (modalStatus) && <WinModal
+                show={modalStatus}
+                onHide={() => setModalStatus(false)}
+                item={note.name.replace(/^(chord|treble)/, "")}
+            />
+        }
+        {(correctGuess === "true") && <p>you did it!</p>}
         {(correctGuess === "false") && <p>nope!</p>}
     </div>
 }

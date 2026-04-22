@@ -5,6 +5,7 @@ import DayContext from "../../../contexts/DayContext";
 import DifficultyContext from "../../../contexts/DifficultyContext";
 import FreeplayContext from "../../../contexts/FreeplayContext";
 
+import WinModal from "../../../components/WinModal";
 
 export default function CrazyDaily(props) {
     const chord = props.chord;
@@ -14,14 +15,15 @@ export default function CrazyDaily(props) {
     const [date] = useContext(DayContext);
     const [difficulty] = useContext(DifficultyContext);
     const [isFreeplay] = useContext(FreeplayContext);
- 
+
     const guessRef = useRef("");
     const [correctGuess, setGuessState] = useState("initial");
+    const [modalStatus, setModalStatus] = useState(false); // should only activate on win. 
 
     function handleGuess(e, chord) {
         e.preventDefault("");
 
-        const guess = guessRef.current.value;
+        const guess = guessRef.current.value.trim();
 
         if (!isValidGuess(guess)) {
             setGuessFormatted("invalid");
@@ -33,6 +35,7 @@ export default function CrazyDaily(props) {
 
         if (guess === chord.name.replace(/^(chord|treble)/, "")) {
             setGuessState("true");
+            setModalStatus(true);
         } else {
             setGuessState("false");
         }
@@ -45,7 +48,7 @@ export default function CrazyDaily(props) {
         setGuessFormatted("initial");
     }, [date, difficulty, isFreeplay]);
 
-
+    console.log(modalStatus);
     return <div style={{ textAlign: "center" }}>
         <h1>daily or something sidk</h1>
         <Image
@@ -58,13 +61,20 @@ export default function CrazyDaily(props) {
             <div style={{ display: "flex", flexDirection: "row" }}>
                 <Form.Control
                     id="answer"
-                    placeholder="e.g. C4, Bb3, F#5 etc."
+                    placeholder="e.g. C7, Csus4(maj7,b9,#5), etc."
                     ref={guessRef}
                 />
                 <Button type="submit">guess</Button>
             </div>
         </Form>
-        {(correctGuess === "true") && <p>nice! the chord was {chord.name.replace(/^(chord|treble)/, "")}</p>}
+        {
+            (modalStatus) && <WinModal
+                show={modalStatus}
+                onHide={() => setModalStatus(false)}
+                item={chord.name.replace(/^(chord|treble)/, "")}
+            />
+        }
+        {(correctGuess === "true") && <p>you did it!</p>}
         {(correctGuess === "false") && <p>nope!</p>}
     </div>
 }
