@@ -45,6 +45,12 @@ export default function NoteFreeplay(props) {
         guessRef.current.value = "";
     }
 
+    function refresh() {
+        setNote(random(chords.note));
+        setGuessState("initial");
+        setGuessFormatted("initial");
+    }
+
     return <div style={{ textAlign: "center" }}>
         <h1>Freeplya mode!</h1>
         <h2>play to your heart's content (if you have one)</h2>
@@ -56,6 +62,9 @@ export default function NoteFreeplay(props) {
         <Form onSubmit={(e) => handleGuess(e, note)} style={{ maxWidth: 400, margin: "0 auto" }}>
             <Form.Label htmlFor="answer">enter a guess</Form.Label>
             <div style={{ display: "flex", flexDirection: "row" }}>
+                <Button variant="secondary" onClick={refresh}>
+                    <i class="bi bi-arrow-clockwise"></i>
+                </Button>
                 <Form.Control
                     id="answer"
                     placeholder="e.g. C4, Bb3, F#5 etc."
@@ -64,7 +73,7 @@ export default function NoteFreeplay(props) {
                 <Button type="submit">guess</Button>
             </div>
         </Form>
-        {(correctGuess === "true") && <p>nice! the note was {prevNote.name.replace(/^(chord|treble)/, "")}</p>}
+        {(correctGuess === "true" && prevNote) && <p>nice! the note was {prevNote.name.replace(/^(chord|treble)/, "")}</p>}
         {(correctGuess === "false") && <p>wrong!</p>}
     </div>
 }
