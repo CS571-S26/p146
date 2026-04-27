@@ -17,7 +17,8 @@ export default function NoteDaily(props) {
     const [difficulty] = useContext(DifficultyContext);
     const [isFreeplay] = useContext(FreeplayContext);
 
-    const initialState = !isFreeplay ? loadDailyState(date, difficulty) : null;
+    const initialState = loadDailyState(date, difficulty);
+
     const guessRefs = useRef([]);
     const [guesses, setGuesses] = useState(() => initialState?.guesses ?? Array(6).fill(""));
     const [currentGuessIndex, setCurrentGuessIndex] = useState(() => initialState?.currentGuessIndex ?? 0);
@@ -26,20 +27,21 @@ export default function NoteDaily(props) {
     const [completed, setCompleted] = useState(() => initialState?.completed ?? (!isFreeplay && isDailyCompleted(date, difficulty)));
     const [outOfGuesses, setOutOfGuesses] = useState(() => initialState?.outOfGuesses ?? false);
 
+    // focuses the proper text input after a guess is updated (among other things)
     useEffect(() => {
         if (modalStatus || completed || outOfGuesses) return;
         guessRefs.current[currentGuessIndex]?.focus();
     }, [currentGuessIndex, modalStatus, completed, outOfGuesses]);
 
+    // ensures that local storage accurately stores the current game session info
     useEffect(() => {
-        if (isFreeplay) return;
         saveDailyState(date, difficulty, {
             guesses,
             currentGuessIndex,
             completed,
             outOfGuesses
         });
-    }, [date, difficulty, guesses, currentGuessIndex, completed, outOfGuesses, isFreeplay]);
+    }, [guesses, currentGuessIndex, completed, outOfGuesses, isFreeplay]);
 
     function handleGuess(e) {
         e.preventDefault();
@@ -47,6 +49,7 @@ export default function NoteDaily(props) {
 
         const guess = guesses[currentGuessIndex].trim();
 
+        // checks if guess is validly formatted
         if (!isValidGuess(guess)) {
             setGuessFormatted("invalid");
             setGuessState("initial");
@@ -54,13 +57,13 @@ export default function NoteDaily(props) {
         }
         setGuessFormatted("valid");
 
+        // if the guess is correct, then update guess checkers to be true,
+        // and save storage
         if (guess === note.name.replace(/^(chord|treble)/, "")) {
             setGuessState("true");
             setModalStatus(true);
-            if (!isFreeplay) {
-                markDailyCompleted(date, difficulty);
-                setCompleted(true);
-            }
+            markDailyCompleted(date, difficulty);
+            setCompleted(true);
             return;
         }
 
@@ -74,9 +77,10 @@ export default function NoteDaily(props) {
         setCurrentGuessIndex(currentGuessIndex + 1);
     }
 
+    // handles saving data 
     useEffect(() => {
-        const saved = !isFreeplay ? loadDailyState(date, difficulty) : null;
-        const isCompleted = !isFreeplay && isDailyCompleted(date, difficulty);
+        const saved = loadDailyState(date, difficulty);
+        const isCompleted = isDailyCompleted(date, difficulty);
         setGuessState("initial");
         setGuessFormatted("initial");
 

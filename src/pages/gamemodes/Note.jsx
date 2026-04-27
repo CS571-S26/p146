@@ -12,7 +12,7 @@ export default function Note(props) {
     const note = props.note;
 
     function isValidGuess(guess) {
-        return props.guessPool.includes(guess);
+        return /^[A-G](?:#|b)?[0-9]$/.test(guess);
     }
 
     const dataToPass = {

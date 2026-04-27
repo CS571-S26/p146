@@ -17,7 +17,7 @@ export default function CrazyDaily(props) {
     const [difficulty] = useContext(DifficultyContext);
     const [isFreeplay] = useContext(FreeplayContext);
 
-    const initialState = !isFreeplay ? loadDailyState(date, difficulty) : null;
+    const initialState = loadDailyState(date, difficulty);
     const guessRefs = useRef([]);
     const [guesses, setGuesses] = useState(() => initialState?.guesses ?? Array(6).fill(""));
     const [currentGuessIndex, setCurrentGuessIndex] = useState(() => initialState?.currentGuessIndex ?? 0);
@@ -32,14 +32,13 @@ export default function CrazyDaily(props) {
     }, [currentGuessIndex, modalStatus, completed, outOfGuesses]);
 
     useEffect(() => {
-        if (isFreeplay) return;
         saveDailyState(date, difficulty, {
             guesses,
             currentGuessIndex,
             completed,
             outOfGuesses
         });
-    }, [date, difficulty, guesses, currentGuessIndex, completed, outOfGuesses, isFreeplay]);
+    }, [guesses, currentGuessIndex, completed, outOfGuesses, isFreeplay]);
 
     function handleGuess(e) {
         e.preventDefault();
@@ -57,10 +56,8 @@ export default function CrazyDaily(props) {
         if (guess === chord.name.replace(/^(chord|treble)/, "")) {
             setGuessState("true");
             setModalStatus(true);
-            if (!isFreeplay) {
-                markDailyCompleted(date, difficulty);
-                setCompleted(true);
-            }
+            markDailyCompleted(date, difficulty);
+            setCompleted(true);
             return;
         }
 
@@ -75,8 +72,8 @@ export default function CrazyDaily(props) {
     }
 
     useEffect(() => {
-        const saved = !isFreeplay ? loadDailyState(date, difficulty) : null;
-        const isCompleted = !isFreeplay && isDailyCompleted(date, difficulty);
+        const saved = loadDailyState(date, difficulty);
+        const isCompleted = isDailyCompleted(date, difficulty);
         setGuessState("initial");
         setGuessFormatted("initial");
 
