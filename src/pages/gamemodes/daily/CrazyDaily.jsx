@@ -6,6 +6,7 @@ import DifficultyContext from "../../../contexts/DifficultyContext";
 import FreeplayContext from "../../../contexts/FreeplayContext";
 
 import WinModal from "../../../components/WinModal";
+import { isDailyCompleted, markDailyCompleted, loadDailyState, saveDailyState } from "../../../utils/dailyStorage";
 
 export default function CrazyDaily(props) {
     const chord = props.chord;
@@ -16,14 +17,35 @@ export default function CrazyDaily(props) {
     const [difficulty] = useContext(DifficultyContext);
     const [isFreeplay] = useContext(FreeplayContext);
 
-    const guessRef = useRef("");
+    const initialState = !isFreeplay ? loadDailyState(date, difficulty) : null;
+    const guessRefs = useRef([]);
+    const [guesses, setGuesses] = useState(() => initialState?.guesses ?? Array(6).fill(""));
+    const [currentGuessIndex, setCurrentGuessIndex] = useState(() => initialState?.currentGuessIndex ?? 0);
     const [correctGuess, setGuessState] = useState("initial");
-    const [modalStatus, setModalStatus] = useState(false); // should only activate on win. 
+    const [modalStatus, setModalStatus] = useState(() => initialState?.completed ?? (!isFreeplay && isDailyCompleted(date, difficulty))); // should only activate on win.
+    const [completed, setCompleted] = useState(() => initialState?.completed ?? (!isFreeplay && isDailyCompleted(date, difficulty)));
+    const [outOfGuesses, setOutOfGuesses] = useState(() => initialState?.outOfGuesses ?? false);
 
-    function handleGuess(e, chord) {
-        e.preventDefault("");
+    useEffect(() => {
+        if (modalStatus || completed || outOfGuesses) return;
+        guessRefs.current[currentGuessIndex]?.focus();
+    }, [currentGuessIndex, modalStatus, completed, outOfGuesses]);
 
-        const guess = guessRef.current.value.trim();
+    useEffect(() => {
+        if (isFreeplay) return;
+        saveDailyState(date, difficulty, {
+            guesses,
+            currentGuessIndex,
+            completed,
+            outOfGuesses
+        });
+    }, [date, difficulty, guesses, currentGuessIndex, completed, outOfGuesses, isFreeplay]);
+
+    function handleGuess(e) {
+        e.preventDefault();
+        if (completed || outOfGuesses) return;
+
+        const guess = guesses[currentGuessIndex].trim();
 
         if (!isValidGuess(guess)) {
             setGuessFormatted("invalid");
@@ -35,16 +57,42 @@ export default function CrazyDaily(props) {
         if (guess === chord.name.replace(/^(chord|treble)/, "")) {
             setGuessState("true");
             setModalStatus(true);
-        } else {
-            setGuessState("false");
+            if (!isFreeplay) {
+                markDailyCompleted(date, difficulty);
+                setCompleted(true);
+            }
+            return;
         }
 
-        guessRef.current.value = "";
+        setGuessState("false");
+
+        if (currentGuessIndex === 5) {
+            setOutOfGuesses(true);
+            return;
+        }
+
+        setCurrentGuessIndex(currentGuessIndex + 1);
     }
 
     useEffect(() => {
+        const saved = !isFreeplay ? loadDailyState(date, difficulty) : null;
+        const isCompleted = !isFreeplay && isDailyCompleted(date, difficulty);
         setGuessState("initial");
         setGuessFormatted("initial");
+
+        if (saved) {
+            setGuesses(saved.guesses ?? Array(6).fill(""));
+            setCurrentGuessIndex(saved.currentGuessIndex ?? 0);
+            setOutOfGuesses(saved.outOfGuesses ?? false);
+            setCompleted(saved.completed ?? isCompleted);
+            setModalStatus(saved.completed ?? isCompleted);
+        } else {
+            setGuesses(Array(6).fill(""));
+            setCurrentGuessIndex(0);
+            setOutOfGuesses(false);
+            setCompleted(isCompleted);
+            setModalStatus(isCompleted);
+        }
     }, [date, difficulty, isFreeplay]);
 
     return <div style={{ textAlign: "center" }}>
@@ -54,17 +102,40 @@ export default function CrazyDaily(props) {
             alt={chord.description}
             style={{ height: 400, width: 400 }} />
 
-        <Form onSubmit={(e) => handleGuess(e, chord)} style={{ maxWidth: 400, margin: "0 auto" }}>
-            <Form.Label htmlFor="answer">enter a guess</Form.Label>
-            <div style={{ display: "flex", flexDirection: "row" }}>
-                <Form.Control
-                    id="answer"
-                    placeholder="e.g. C7, Csus4(maj7,b9,#5), etc."
-                    ref={guessRef}
-                />
-                <Button type="submit">guess</Button>
+        {outOfGuesses && (
+            <div style={{ marginBottom: 20 }}>
+                <p style={{ color: "red", fontSize: "1.2em" }}>
+                    The chord was: <strong>{chord.name.replace(/^(chord|treble)/, "")}</strong>
+                </p>
+            </div>
+        )}
+
+        <Form onSubmit={handleGuess} style={{ maxWidth: 400, margin: "0 auto" }}>
+            <Form.Label>enter a guess</Form.Label>
+            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                {guesses.map((guess, index) => (
+                    <Form.Control
+                        key={index}
+                        id={`answer-${index}`}
+                        placeholder={index === currentGuessIndex ? "e.g. C7, Csus4(maj7,b9,#5), etc." : ""}
+                        value={guess}
+                        onChange={(e) => {
+                            const next = [...guesses];
+                            next[index] = e.target.value;
+                            setGuesses(next);
+                        }}
+                        ref={(el) => (guessRefs.current[index] = el)}
+                        disabled={completed || outOfGuesses || index !== currentGuessIndex}
+                        style={{
+                            borderRadius: index === 0 ? "8px 8px 0 0" : index === 5 ? "0 0 8px 8px" : 0,
+                            borderTop: index === 0 ? undefined : "none"
+                        }}
+                    />
+                ))}
+                <Button type="submit" disabled={completed || outOfGuesses}>guess</Button>
             </div>
         </Form>
+        {outOfGuesses && <p style={{ color: "red" }}>You used all 6 guesses.</p>}
         {
             (modalStatus) && <WinModal
                 show={modalStatus}
