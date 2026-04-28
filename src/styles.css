@@ -1,5 +1,5 @@
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 1.6;
   color: #333;
   margin: 0;
@@ -35,18 +35,16 @@ body {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  font-family: 'Arial', sans-serif;
-  line-height: 1.6;
   color: #333;
 }
 
-.page-content h3 {
-  color: #2d9a1c;
+.page-content h1, h2, h3, h4 {
+  color: #030502;
   margin-top: 30px;
   margin-bottom: 15px;
   font-weight: bold;
+  border-bottom: 1px solid;
 }
-
 .page-content p {
   margin-bottom: 15px;
   text-align: justify;
@@ -58,6 +56,7 @@ body {
   margin: 0 auto;
   padding: 20px;
 }
+
 
 .page-sidebar {
   width: 250px;
