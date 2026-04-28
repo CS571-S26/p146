@@ -48,8 +48,7 @@ export default function CrazyFreeplay(props) {
     }
 
     return <div style={{ textAlign: "center" }}>
-        <h1>Freeplya mode!</h1>
-        <h2>play to your heart's content (if you have one)</h2>
+        <h1>Freeplay</h1>
         <Image
             src={`/p146/crazy/${chord.name.replaceAll("#", "sharp")}.svg`}
             alt={chord.description}
@@ -66,7 +65,7 @@ export default function CrazyFreeplay(props) {
                     placeholder="e.g. C7, Csus4(maj7,b9,#5), etc."
                     ref={guessRef}
                 />
-                <Button type="submit">guess</Button>
+                <Button type="submit" >guess</Button>
             </div>
         </Form>
         {(correctGuess === "true" && prevChord) && <p>nice! the chord was {prevChord.name.replace(/^(chord|treble)/, "")}</p>}

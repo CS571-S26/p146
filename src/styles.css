@@ -24,7 +24,7 @@ body {
 }
 
 .dailyButton {
-    transition: all 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .dailyButton:hover {
@@ -38,13 +38,17 @@ body {
   color: #333;
 }
 
-.page-content h1, h2, h3, h4 {
+.page-content h1,
+h2,
+h3,
+h4 {
   color: #030502;
   margin-top: 30px;
   margin-bottom: 15px;
   font-weight: bold;
   border-bottom: 1px solid;
 }
+
 .page-content p {
   margin-bottom: 15px;
   text-align: justify;
@@ -79,3 +83,11 @@ body {
   flex: 1;
   padding-left: 20px;
 }
+
+.answer-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  /* box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3); */
+}
+

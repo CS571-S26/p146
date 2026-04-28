@@ -50,8 +50,7 @@ export default function NoteFreeplay(props) {
     }
 
     return <div style={{ textAlign: "center" }}>
-        <h1>Freeplya mode!</h1>
-        <h2>play to your heart's content (if you have one)</h2>
+        <h1>Freeplay</h1>
         <Image
             src={`/p146/notes/${note.name.replaceAll("#", "sharp")}.svg`}
             alt={note.description}
