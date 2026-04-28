@@ -108,7 +108,7 @@ export default function CrazyDaily(props) {
         )}
 
         <Form onSubmit={handleGuess} style={{ maxWidth: 400, margin: "0 auto"}}>
-            <Form.Label>enter a guess</Form.Label>
+            <Form.Label htmlFor={`answer-${currentGuessIndex}`}>enter a guess</Form.Label>
             <div className="answer-box">
                 {guesses.map((guess, index) => (
                     <Form.Control

@@ -13,7 +13,7 @@ export default function Learn() {
                 If you are a mathematician or are familiar with the mathematical style of definitions and are looking to learn music,
                 consider the mathematician's mode. (something to implement) */}
             </p>
-            <h4>Reading Notes</h4>
+            <h2>Reading Notes</h2>
             <p>
                 A note &#x1D15F; is a specific pitch (frequency) that we hear. The lines of sheet music gives a musician where the notes are.
                 The higher the note is, the higher up it will be in the 5 lines you see in a typical <i>staff</i> (the 5 lines).
@@ -47,9 +47,9 @@ export default function Learn() {
                 <br />
                 *Note: In actual musical settings, the octave number is usually dropped, but for the purposes of this game, we will keep it for good practice!
             </p>
-            <h4>
+            <h2>
                 Chords
-            </h4>
+            </h2>
             <p>
                 Chords are a little bit more complex. They are a group of notes, each of which occupy the same "bar," thus connecting them and forming a chord. Every combination of notes
                 has a different name, which is what makes them complex. It is easy to identify WHICH notes occupy a chord by reading the score, but it can be difficult to know the NAME
@@ -60,9 +60,9 @@ export default function Learn() {
                 diminished chord, and the augmented chord. Fundamentally, triads are just chords that are built by stacking notes on top of each other, spaced apart by one line or space. We will cover
                 identifying chords in a later section.
             </p>
-            <h4>
+            <h2>
                 Accidentals
-            </h4>
+            </h2>
             <p>
                 Now that you have a basic idea of what notes and chords are, we can cover some modifiers that can affect how we read notes. The two most common modifiers
                 are called accidentals. The three most common accidentals are the sharp &#x266F;, the flat &#x266D;, and the natural &#x266E;. These modifiers will be placed to
@@ -83,7 +83,7 @@ export default function Learn() {
                 <br/>
                 Now to understand our last accidental, the natural &#x266E;, we must first introduce another topic: the key signature. 
             </p>
-            <h4>The Key Signature</h4>
+            <h2>The Key Signature</h2>
             <p>
                 The key signature is a friend of our clef, and sits just to the right of it. It functions similarly too, since it adds another global modifier to how we read our notes, just like our clef. 
                 They key signature tells us which notes should <i>always</i> be flat &#x266D; or sharp &#x266F;. The key signature will consist of some floating flat &#x266D; or sharp symbols &#x266F;, and whichever note WOULD be in their place

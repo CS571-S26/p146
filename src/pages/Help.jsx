@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 export default function Help(props) {
     return <div className="page-layout">
         <div className="page-main page-content">
-            <h3>How to Play</h3>
+            <h1>Help</h1>
+            <h2>How to Play</h2>
             <p>This game is a play on the popular game <i>Wordle</i>, and mimics its style of daily puzzles. You are given a set of
             daily puzzles of varying difficulties to try to solve. Puzzles are solved by identifying the name of a given note or chord. The
             naming conventions used are as follows: for notes, we use the note name WITH the octave number. Sharps or flats are then appended after the
@@ -21,7 +22,7 @@ export default function Help(props) {
             If you are new to music, consider checking out <Link to="/learn">Learn</Link>.
             </p>
 
-            <h3>Lore</h3>
+            <h2>Lore</h2>
             <p>The motivation of this project is first to be able to bring out the intersection of
                 two of my interests to create something fun. In addition, I hope that I also can
                 help boost anyone's music learning journey so that they can get a start by knowing the basic anatomy

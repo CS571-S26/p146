@@ -49,6 +49,11 @@ h4 {
   border-bottom: 1px solid;
 }
 
+.page-content h2 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
 .page-content p {
   margin-bottom: 15px;
   text-align: justify;

@@ -116,7 +116,7 @@ export default function NoteDaily(props) {
         )}
 
         <Form onSubmit={handleGuess} style={{ maxWidth: 400, margin: "0 auto" }}>
-            <Form.Label>enter a guess</Form.Label>
+            <Form.Label htmlFor={`answer-${currentGuessIndex}`}>enter a guess</Form.Label>
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
                 {guesses.map((guess, index) => (
                     <Form.Control
