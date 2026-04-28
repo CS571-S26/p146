@@ -14,7 +14,7 @@ const chords = {
         { name: "chordCm(maj7,b9,#5)", description: "C, Eb, G#, B, Db" },
         { name: "chordD7sus2", description: "D, E, A, C" },
         { name: "chordDm7", description: "D, F, A, C" },
-        { name: "chordE7sus4(#5)", description: "E, A, C, D#" },
+        { name: "chordE7sus4(#5)", description: "E, A, B#, D" },
         { name: "chordEb7", description: "Eb, G, Bb, Db" },
         { name: "chordEbm(maj7,9,#5)", description: "Eb, Gb, B, D, F" },
         { name: "chordEsus4(add9)", description: "E, A, B, F#" },
@@ -22,17 +22,16 @@ const chords = {
         { name: "chordF#mb5", description: "F#, A, C" },
         { name: "chordG7(#5,#9)", description: "G, B, D#, F, A#" },
         { name: "chordG7#5", description: "G, B, D#, F" },
-        { name: "chordGsus4", description: "G, C, D" }
+        { name: "chordGsus4", description: "G, C, D" }, 
+        { name: "Ebm7", description: "Eb, Gb, Bb, Db"},
     ],
 
     triad: [
         { name: "chordA", description: "A, C#, E" },
-        { name: "chordAbsus", description: "Ab, Db, Eb" },
         { name: "chordAbm", description: "Ab, Cb, Eb" },
         { name: "chordAm", description: "A, C, E" },
         { name: "chordB", description: "B, D#, F#" },
         { name: "chordBdim", description: "B, D, F"},
-        { name: "chordBbsus", description: "Bb, Eb, F" },
         { name: "chordBbm", description: "Bb, Db, F" },
         { name: "chordC", description: "C, E, G" },
         { name: "chordCaug", description: "C, E, G#" },
