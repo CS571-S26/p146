@@ -16,7 +16,14 @@ export default function Help(props) {
             <br/>
             <br/>
             For more complex chords, we use root+type+(modifiers), where modifiers are anything special that might further modify our chord beyond just
-            the initial root and type. For instance, Cbsus4(maj7, b9) encodes a C flat suspended 4th with a major 7th and a flat 9th chord.
+            the initial root and type. For instance, Cbsus4(maj7, b9) encodes a C flat suspended 4th with a major 7th and a flat 9th chord. Within our additional modifiers, 
+            we order those first by any modifiers that may add notes, and then modifiers that change notes (e.g. accidentals). Within one of those partitions, if there 
+            are ever more then just one modifier of that type, those are to be listed in order of their scale degrees. For instance, we'd say C7(#6, b5, #7) for an added sharp 6th, a 
+            modified 5th, and a modified 7th.  
+            <br/>
+            <br/>
+            Unfortunately, note names to notes aren't one-to-one, and there is only one answer for each of the chords in the crazy gamemode. The chords are structured in a way
+            so that they aren't <i>too</i> ambiguous in their naming. If there ever is one that doesn't strongly favor any particular naming, changes will be made.  
             <br/>
             <br/>
             If you are new to music, consider checking out <Link to="/learn">Learn</Link>.

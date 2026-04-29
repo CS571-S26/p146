@@ -12,7 +12,7 @@ export default function AppRouting() {
       <Route path="/" element={<Layout />}>
         <Route index element = {<Chordle />}/>
         <Route path="help" element={<Help/>}/>
-        <Route path="learn" element={<Learn/>}/>
+        <Route path="learn/*" element={<Learn/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
     </Routes>
