@@ -122,6 +122,7 @@ export default function NoteDaily(props) {
                     <Form.Control
                         key={index}
                         id={`answer-${index}`}
+                        aria-label={`guess ${index+1}`}
                         placeholder={index === currentGuessIndex ? "e.g. C4, Bb3, F#5 etc." : ""}
                         value={guess}
                         onChange={(e) => {
