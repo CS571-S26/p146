@@ -94,7 +94,7 @@ export default function TriadDaily(props) {
 
 
     return <div style={{ textAlign: "center" }}>
-        <h1>daily or something sidk</h1>
+        <h1>Daily</h1>
         <Image
             src={`/p146/triads/${chord.name.replaceAll("#", "sharp")}.svg`}
             alt={chord.description}
@@ -115,6 +115,7 @@ export default function TriadDaily(props) {
                     <Form.Control
                         key={index}
                         id={`answer-${index}`}
+                        aria-label={`guess ${index + 1}`}
                         placeholder={index === currentGuessIndex ? "e.g. C, Cm, Caug, Cdim etc." : ""}
                         value={guess}
                         onChange={(e) => {

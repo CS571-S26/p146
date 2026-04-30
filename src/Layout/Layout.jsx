@@ -69,18 +69,18 @@ export default function Layout(props) {
                 <Nav.Link as={Link} to="/">Chordle</Nav.Link>
                 <Nav.Link as={Link} to="/help">Help</Nav.Link>
                 <Nav.Link as={Link} to="/learn">Learn</Nav.Link>
-                <NavDropdown title={`difficulty: ${difficulty}`}>
+                <NavDropdown title={`difficulty: ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}`}>
                     <NavDropdown.Item
-                        onClick={() => setDifficulty("note")}
-                        active={difficulty === "note"}>single note</NavDropdown.Item>
+                        onClick={() => setDifficulty("note")}   
+                        active={difficulty === "note"}>Note</NavDropdown.Item>
 
                     <NavDropdown.Item
                         onClick={() => setDifficulty("triad")}
-                        active={difficulty === "triad"}>triads</NavDropdown.Item>
+                        active={difficulty === "triad"}>Triads</NavDropdown.Item>
 
                     <NavDropdown.Item
                         onClick={() => setDifficulty("crazy")}
-                        active={difficulty === "crazy"}>okay you're crazy</NavDropdown.Item>
+                        active={difficulty === "crazy"}>Crazy</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
             <Nav className="ms-auto">

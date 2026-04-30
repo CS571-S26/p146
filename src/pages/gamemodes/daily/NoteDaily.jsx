@@ -101,7 +101,7 @@ export default function NoteDaily(props) {
 
 
     return <div style={{ textAlign: "center" }}>
-        <h1>daily or something sidk</h1>
+        <h1>Daily</h1>
         <Image
             src={`/p146/notes/${note.name.replaceAll("#", "sharp")}.svg`}
             alt={note.description}

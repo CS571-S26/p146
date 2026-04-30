@@ -93,7 +93,7 @@ export default function CrazyDaily(props) {
     }, [date, difficulty, isFreeplay]);
 
     return <div style={{ textAlign: "center" }}>
-        <h1>daily or something sidk</h1>
+        <h1>Daily</h1>
         <Image
             src={`/p146/crazy/${chord.name.replaceAll("#", "sharp")}.svg`}
             alt={chord.description}
@@ -107,13 +107,14 @@ export default function CrazyDaily(props) {
             </div>
         )}
 
-        <Form onSubmit={handleGuess} style={{ maxWidth: 400, margin: "0 auto"}}>
+        <Form onSubmit={handleGuess} style={{ maxWidth: 400, margin: "0 auto" }}>
             <Form.Label htmlFor={`answer-${currentGuessIndex}`}>enter a guess</Form.Label>
             <div className="answer-box">
                 {guesses.map((guess, index) => (
                     <Form.Control
                         key={index}
                         id={`answer-${index}`}
+                        aria-label={`guess ${index + 1}`}
                         placeholder={index === currentGuessIndex ? "e.g. C7, Csus4(maj7,b9,#5), etc." : ""}
                         value={guess}
                         onChange={(e) => {
