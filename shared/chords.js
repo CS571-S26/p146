@@ -16,6 +16,7 @@ const chords = {
         { name: "chordDm7", description: "D, F, A, C" },
         { name: "chordE7sus4(#5)", description: "E, A, B#, D" },
         { name: "chordEb7", description: "Eb, G, Bb, Db" },
+        { name: "chordEbm7", description: "Eb, Gb, Bb, Db"},
         { name: "chordEbm(maj7,9,#5)", description: "Eb, Gb, B, D, F" },
         { name: "chordEsus4(add9)", description: "E, A, B, F#" },
         { name: "chordF9", description: "F, A, C, Eb, G" },
@@ -23,7 +24,6 @@ const chords = {
         { name: "chordG7(#5,#9)", description: "G, B, D#, F, A#" },
         { name: "chordG7#5", description: "G, B, D#, F" },
         { name: "chordGsus4", description: "G, C, D" }, 
-        { name: "Ebm7", description: "Eb, Gb, Bb, Db"},
     ],
 
     triad: [
@@ -73,13 +73,15 @@ const chords = {
         { name: "trebleE4", description: "This treble line note is on the first staff line from the bottom" },
         { name: "trebleE5", description: "This treble space note is on the fourth staff space from the bottom" },
         { name: "trebleEb4", description: "This treble flat line note is on the first staff line from the bottom" },
+        { name: "trebleE#5", description: "This treble sharp space note is on the first staff space from the top of the staff"},
         { name: "trebleF4", description: "This treble space note is on the first staff space from the bottom" },
         { name: "trebleF5", description: "This treble line note is on the fifth staff line from the bottom" },
-        { name: "trebleF#5", description: "This treble sharp line note is on the fifth staff line from the bottom" },
+        { name: "trebleF#5", description: "This treble sharp line note is on the top most line of the staff" },
         { name: "trebleG4", description: "This treble line note is on the second staff line from the bottom" },
         { name: "trebleG5", description: "This treble space note is above the fifth staff line" },
         { name: "trebleGb4", description: "This treble flat line note is on the second staff line from the bottom" },
-        { name: "trebleG#4", description: "This treble sharp line note is on the second staff line from the bottom" }
+        { name: "trebleG#4", description: "This treble sharp line note is on the second staff line from the bottom" },
+        { name: "trebleGb5", description: "This treble flat space note is on the very top of the staff"}
     ]
 }
 
